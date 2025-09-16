@@ -30,7 +30,8 @@ class Solver(ABC):
 
         raise NotImplementedError()
 
-    def visualise(self, xs: np.ndarray, t_max: float, dt: float) -> None:
+    def visualise(self, xs: np.ndarray, t_max: float, dt: float,
+                  out_path=None) -> None:
         """ Visualise the solution
 
         Parameters:
@@ -60,8 +61,11 @@ class Solver(ABC):
             line.set_data(xs, us[frame])
             ax.set_title(f"t = {ts[frame]:.2f}")
 
-        anim = FuncAnimation(fig, update_anim, frames=len(ts), 
-                             init_func=init_anim, blit=False, interval=50,
+        anim = FuncAnimation(fig, update_anim, frames=len(ts),
+                             init_func=init_anim, blit=False, interval=25,
                              repeat=True)
+
+        if out_path is not None:
+            anim.save(out_path, writer="ffmpeg", fps=30)
 
         plt.show()

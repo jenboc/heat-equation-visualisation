@@ -2,7 +2,7 @@
 # Separation of Variables
 
 from typing import Callable
-from solver import Solver
+from solvers.solver import Solver
 import numpy as np
 
 
