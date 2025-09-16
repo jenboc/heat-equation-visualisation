@@ -47,6 +47,8 @@ class Solver(ABC):
 
         # Plot these us and animate over t
         fig, ax = plt.subplots()
+        ax.set_xlabel("x")
+        ax.set_ylabel("u(x,t)")
         ax.set_xlim(xs.min(), xs.max())
         ax.set_ylim(us.min(), us.max())
         line, = ax.plot([], [], lw=2)
