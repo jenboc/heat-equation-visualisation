@@ -9,7 +9,7 @@ import numpy as np
 
 class Solver(ABC):
     def __init__(self, diffusivity: float, rod_length: float,
-                 initial_condition: Callable[[float], float]) -> None:
+                 initial_condition: Callable[[np.ndarray], np.ndarray]):
         # These three things well-define our problem
         self.kappa = diffusivity
         self.length = rod_length
