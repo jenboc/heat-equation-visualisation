@@ -87,14 +87,14 @@ class SeriesSolver(Solver):
 
 if __name__ == "__main__":
     # Problem Statement
-    diffusivity = 1
-    rod_length = np.pi
+    diffusivity = 0.1
+    rod_length = 1.0
 
     def initial_condition(x):
-        return np.sin(x)
+        return x * (rod_length - x)
 
     # Visualisation Parameters
-    xs = np.linspace(-5, 5, 400)
+    xs = np.linspace(0, rod_length, 4 * 500)
     t_max = 5.0
     dt = 0.1
 

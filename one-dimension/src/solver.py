@@ -42,7 +42,7 @@ class Solver(ABC):
                 The difference in time between frames of the animation
         """
 
-        ts = np.arange(0, t_max + dt, dt)
+        ts = np.arange(dt, t_max + dt, dt)
         us = self.u(xs, ts)
 
         # Plot these us and animate over t
@@ -61,7 +61,7 @@ class Solver(ABC):
             ax.set_title(f"t = {ts[frame]:.2f}")
 
         anim = FuncAnimation(fig, update_anim, frames=len(ts), 
-                             init_func=init_anim, blit=False, interval=50, 
+                             init_func=init_anim, blit=False, interval=50,
                              repeat=True)
 
         plt.show()
