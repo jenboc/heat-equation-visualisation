@@ -83,25 +83,3 @@ class SeriesSolver(Solver):
         weighted_decay = decay_part * self.coeffs[None, :]
 
         return weighted_decay @ spatial_part
-
-
-if __name__ == "__main__":
-    # Problem Statement
-    diffusivity = 0.1
-    rod_length = 1.0
-
-    def initial_condition(x):
-        return x * (rod_length - x)
-
-    # Visualisation Parameters
-    xs = np.linspace(0, rod_length, 4 * 500)
-    t_max = 5.0
-    dt = 0.1
-
-    # Solver Parameters
-    num_terms = 500
-    n_int_points = 501
-
-    solver = SeriesSolver(diffusivity, rod_length, initial_condition,
-                          num_terms, n_int_points)
-    solver.visualise(xs, t_max, dt)
