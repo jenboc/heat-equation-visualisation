@@ -3,7 +3,7 @@
 
 from typing import Callable
 from solvers.solver import Solver
-from scipy.linalg import solve_banded
+from scipy.linalg import lu_factor, lu_solve
 import numpy as np
 
 
@@ -23,31 +23,30 @@ class MoLSolver(Solver):
         # The number of interior points on the x grid
         m = len(x) - 2
 
-        # === TIME STEP THE ODE ===
         # The recurrence essentially comes down to solving a system of
         # equations; we COULD take the inverse but this is very expensive
-        # so we use solve_banded from scipy instead
+        # so we use LU decomposition instead.
 
         # This requires a matrix constructed in a specific way
         r = self.kappa * dt / (dx ** 2)
-        main_diag = (1 + r) * np.ones(m)
-        off_diag = (-r / 2) * np.ones(m - 1)
+        tridiag = np.diag(-2 * np.ones(m)) \
+            + np.diag(np.ones(m - 1), 1) \
+            + np.diag(np.ones(m - 1), -1)
 
-        banded_matrix = np.zeros((3, m))
-        banded_matrix[0, 1:] = off_diag
-        banded_matrix[1, :] = main_diag
-        banded_matrix[2, :-1] = off_diag
+        id = np.eye(m)
+        lhs = id - 0.5 * r * tridiag
+        rhs = id + 0.5 * r * tridiag
 
-        rhs = np.diag((1 - r) * np.ones(m)) \
-            + np.diag((r / 2) * np.ones(m - 1), 1) \
-            + np.diag((r / 2) * np.ones(m - 1), -1)
+        lu, piv = lu_factor(lhs)
 
+        # Initialise solution array with the initial condition
         sol = np.zeros((len(t), len(x)))
         sol[0, :] = self.initial_condition(x)
 
+        # Timestep the vector ODE
         current_u = sol[0, 1:-1]
         for n in range(1, len(t)):
-            current_u = solve_banded((1, 1), banded_matrix, rhs @ current_u)
+            current_u = lu_solve((lu, piv), rhs @ current_u)
             sol[n, 1:-1] = current_u
 
         # Boundary conditions = 0; so we don't need to do anything at the
