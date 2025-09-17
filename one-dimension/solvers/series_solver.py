@@ -10,7 +10,8 @@ class SeriesSolver(Solver):
     def __init__(self, diffusivity: float, rod_length: float,
                  initial_condition: Callable[[np.ndarray], np.ndarray],
                  num_terms: int, n_int_points: int):
-        super().__init__(diffusivity, rod_length, initial_condition)
+        super().__init__("Truncated Series",
+                         diffusivity, rod_length, initial_condition)
 
         # Number of terms that we take from the infinite series
         self.num_terms = num_terms

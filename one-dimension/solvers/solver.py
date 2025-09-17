@@ -8,8 +8,10 @@ import numpy as np
 
 
 class Solver(ABC):
-    def __init__(self, diffusivity: float, rod_length: float,
+    def __init__(self, method_name: str, diffusivity: float, rod_length: float,
                  initial_condition: Callable[[np.ndarray], np.ndarray]):
+        self.method_name = method_name
+
         # These three things well-define our problem
         self.kappa = diffusivity
         self.length = rod_length
@@ -48,10 +50,14 @@ class Solver(ABC):
 
         # Plot these us and animate over t
         fig, ax = plt.subplots()
+
+        fig.suptitle(f"{self.method_name} Solution")
+
         ax.set_xlabel("x")
         ax.set_ylabel("u(x,t)")
         ax.set_xlim(xs.min(), xs.max())
         ax.set_ylim(us.min(), us.max())
+
         line, = ax.plot([], [], lw=2)
 
         def init_anim():

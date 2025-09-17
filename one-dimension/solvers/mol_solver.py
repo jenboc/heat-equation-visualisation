@@ -10,7 +10,8 @@ import numpy as np
 class MoLSolver(Solver):
     def __init__(self, diffusivity: float, rod_length: float,
                  initial_condition: Callable[[np.ndarray], np.ndarray]):
-        super().__init__(diffusivity, rod_length, initial_condition)
+        super().__init__("Method of Lines",
+                         diffusivity, rod_length, initial_condition)
 
     def u(self, x: np.ndarray, t: np.ndarray) -> np.ndarray:
         # (I - dt/2 A) * u_n+1 = (I + dt/2 A) * u_n
