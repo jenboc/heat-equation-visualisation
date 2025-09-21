@@ -1,5 +1,5 @@
 # Heat Equation Visualisation
-Repository for [my blog post](www.jensoncain.co.uk/posts/visualising-heat-equation/) 
+Repository for [my blog post](http://www.jensoncain.co.uk/posts/visualising-heat-equation/) 
 about visualising the heat equation.
 
 Contains implementations for the Crank-Nicholson scheme and series truncation
