@@ -28,7 +28,7 @@ FetchContent_MakeAvailable(glm)
 # GLAD installed locally
 add_subdirectory(lib/glad)
 
-add_executable(heateq src/main.cpp)
+add_executable(heateq src/main.cpp src/shader.cpp)
 
 find_package(OpenGL REQUIRED)
 target_link_libraries(heateq PRIVATE glfw OpenGL::GL glad glm)
